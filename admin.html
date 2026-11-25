@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRB Sports - Admin Panel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 30px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      color: #38bdf8;
+    }
+
+    .open-btn {
+      text-decoration: none;
+      background: #334155;
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .open-btn:hover {
+      background: #475569;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      color: #e2e8f0;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #ffffff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #38bdf8;
+    }
+
+    .score-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .score-control button {
+      width: 44px;
+      height: 42px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: #fff;
+      transition: transform 0.1s;
+    }
+
+    .score-control button:active {
+      transform: scale(0.95);
+    }
+
+    .btn-minus {
+      background: #ef4444;
+    }
+
+    .btn-plus {
+      background: #22c55e;
+    }
+
+    .score-control input {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .logo-preview {
+      margin-top: 8px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid #334155;
+      background: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn-save {
+      flex: 1;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-save:hover {
+      background: #0ea5e9;
+    }
+
+    .btn-reset {
+      background: #475569;
+      color: #fff;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-reset:hover {
+      background: #64748b;
+    }
+
+    .toast {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      min-height: 22px;
+    }
+
+    @media (max-width: 680px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Admin Control Panel</h1>
+      <a href="index.html" target="_blank" class="open-btn">Scoreboard দেখুন ↗</a>
+    </div>
+
+    <!-- ব্যাকগ্রাউন্ড ও স্ট্যাটাস -->
+    <div class="card" style="margin-bottom: 20px;">
+      <h2>Background & Status</h2>
+      <div class="grid" style="margin-bottom: 0;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Background Image URL (ImgBB Direct Link)</label>
+          <input type="url" id="bgImage" placeholder="https://i.ibb.co/...">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Match Status (খালি রাখলে হাইড থাকবে)</label>
+          <input type="text" id="matchStatus" placeholder="LIVE / 1ST HALF / FULL TIME">
+        </div>
+      </div>
+    </div>
+
+    <!-- দুই দলের সেটিংস -->
+    <div class="grid">
+      <!-- টিম ১ -->
+      <div class="card">
+        <h2>Team 1 (বাম পাশ)</h2>
+        <div class="form-group">
+          <label>Team Name</label>
+          <input type="text" id="t1Name" placeholder="দলের নাম লিখুন">
+        </div>
+        <div class="form-group">
+          <label>Logo URL (ImgBB Direct Link)</label>
+          <input type="url" id="t1Logo" placeholder="https://i.ibb.co/..." oninput="previewLogo('t1Logo', 't1Preview')">
+          <div class="logo-preview">
+            <img id="t1Preview" alt="Preview">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Score</label>
+          <div class="score-control">
+            <button type="button" class="btn-minus" onclick="changeScore(1, -1)">-</button>
+            <input type="number" id="t1Score" value="0" min="0">
+            <button type="button" class="btn-plus" onclick="changeScore(1, 1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- টিম ২ -->
+      <div class="card">
+        <h2>Team 2 (ডান পাশ)</h2>
+        <div class="form-group">
+          <label>Team Name</label>
+          <input type="text" id="t2Name" placeholder="দলের নাম লিখুন">
+        </div>
+        <div class="form-group">
+          <label>Logo URL (ImgBB Direct Link)</label>
+          <input type="url" id="t2Logo" placeholder="https://i.ibb.co/..." oninput="previewLogo('t2Logo', 't2Preview')">
+          <div class="logo-preview">
+            <img id="t2Preview" alt="Preview">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Score</label>
+          <div class="score-control">
+            <button type="button" class="btn-minus" onclick="changeScore(2, -1)">-</button>
+            <input type="number" id="t2Score" value="0" min="0">
+            <button type="button" class="btn-plus" onclick="changeScore(2, 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-save" onclick="saveData()">Save & Update Live Scoreboard</button>
+      <button type="button" class="btn-reset" onclick="resetScores()">Reset Score (0 - 0)</button>
+    </div>
+
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCPPXUn-8wbzu2HvhG_Lh5R8SDesFp-5i8",
+      authDomain: "brb-sports-bangla.firebaseapp.com",
+      databaseURL: "https://brb-sports-bangla-default-rtdb.firebaseio.com",
+      projectId: "brb-sports-bangla",
+      storageBucket: "brb-sports-bangla.firebasestorage.app",
+      messagingSenderId: "507558167561",
+      appId: "1:507558167561:web:233806ac51f8a0a442a4d8",
+      measurementId: "G-VCFZTE49JJ"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const scoreboardRef = db.ref('scoreboard');
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.style.color = isError ? '#f87171' : '#4ade80';
+      toast.textContent = msg;
+      setTimeout(() => { toast.textContent = ''; }, 3000);
+    }
+
+    function previewLogo(inputId, imgId) {
+      const url = document.getElementById(inputId).value.trim();
+      const img = document.getElementById(imgId);
+      if (url) {
+        img.src = url;
+        img.style.display = 'block';
+        img.onerror = () => img.style.display = 'none';
+      } else {
+        img.style.display = 'none';
+      }
+    }
+
+    // শুরুতে Firebase থেকে বর্তমান ডাটা লোড করা
+    scoreboardRef.once('value')
+      .then((snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+
+        document.getElementById('bgImage').value = data.bgImage || '';
+        document.getElementById('matchStatus').value = data.status ?? 'LIVE';
+
+        document.getElementById('t1Name').value = data.team1?.name || 'Team A';
+        document.getElementById('t1Logo').value = data.team1?.logo || '';
+        document.getElementById('t1Score').value = data.team1?.score ?? 0;
+        previewLogo('t1Logo', 't1Preview');
+
+        document.getElementById('t2Name').value = data.team2?.name || 'Team B';
+        document.getElementById('t2Logo').value = data.team2?.logo || '';
+        document.getElementById('t2Score').value = data.team2?.score ?? 0;
+        previewLogo('t2Logo', 't2Preview');
+      })
+      .catch((err) => {
+        showToast('ডাটা লোড করতে সমস্যা হয়েছে: ' + err.message, true);
+      });
+
+    function saveData(msg = 'লাইভ স্কোরবোর্ড আপডেট হয়েছে!') {
+      const data = {
+        bgImage: document.getElementById('bgImage').value.trim(),
+        status: document.getElementById('matchStatus').value.trim(),
+        team1: {
+          name: document.getElementById('t1Name').value.trim() || 'Team A',
+          logo: document.getElementById('t1Logo').value.trim(),
+          score: Math.max(0, parseInt(document.getElementById('t1Score').value) || 0)
+        },
+        team2: {
+          name: document.getElementById('t2Name').value.trim() || 'Team B',
+          logo: document.getElementById('t2Logo').value.trim(),
+          score: Math.max(0, parseInt(document.getElementById('t2Score').value) || 0)
+        }
+      };
+
+      scoreboardRef.set(data)
+        .then(() => {
+          showToast(msg, false);
+        })
+        .catch((err) => {
+          showToast('সেভ হয়নি! Firebase Rules চেক করুন: ' + err.message, true);
+        });
+    }
+
+    function changeScore(teamNum, delta) {
+      const input = document.getElementById(teamNum === 1 ? 't1Score' : 't2Score');
+      const current = parseInt(input.value) || 0;
+      input.value = Math.max(0, current + delta);
+      saveData('স্কোর আপডেট হয়েছে!');
+    }
+
+    function resetScores() {
+      document.getElementById('t1Score').value = 0;
+      document.getElementById('t2Score').value = 0;
+      saveData('স্কোর 0 - 0 রিসেট করা হয়েছে!');
+    }
+  </script>
+
+</body>
+</html>
