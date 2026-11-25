@@ -24,7 +24,7 @@
 
     .container {
       width: 100%;
-      max-width: 860px;
+      max-width: 960px;
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 16px;
@@ -253,6 +253,115 @@
       display: none;
     }
 
+    /* গোলদাতা অ্যাড করার সেকশন */
+    .goals-section {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #1e293b;
+    }
+
+    .goals-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .goals-header h3 {
+      font-size: 0.95rem;
+      color: #facc15;
+    }
+
+    .btn-add-goal {
+      background: #0ea5e9;
+      color: #0f172a;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-add-goal:hover {
+      background: #38bdf8;
+    }
+
+    .goal-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .goal-row {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .goal-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .goal-avatar-preview {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #facc15;
+      background: #0f172a;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .goal-avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: none;
+    }
+
+    .goal-row input {
+      padding: 7px 9px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #fff;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .goal-row input:focus {
+      border-color: #38bdf8;
+    }
+
+    .input-goal-no { width: 58px; text-align: center; font-weight: 700; }
+    .input-player-name { flex: 1; min-width: 100px; }
+    .input-goal-min { width: 68px; text-align: center; font-weight: 700; color: #facc15 !important; }
+    .input-player-photo { width: 100%; }
+
+    .btn-remove-goal {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      width: 30px;
+      height: 32px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
     .actions {
       display: flex;
       gap: 12px;
@@ -299,7 +408,7 @@
       min-height: 22px;
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 760px) {
       .grid {
         grid-template-columns: 1fr;
       }
@@ -356,7 +465,7 @@
       </div>
     </div>
 
-    <!-- দুই দলের সেটিংস -->
+    <!-- দুই দলের সেটিংস ও গোলদাতা -->
     <div class="grid">
       <!-- টিম ১ -->
       <div class="card">
@@ -379,6 +488,15 @@
             <input type="number" id="t1Score" value="0" min="0">
             <button type="button" class="btn-plus" onclick="changeScore(1, 1)">+</button>
           </div>
+        </div>
+
+        <!-- টিম ১ গোলদাতা লিস্ট -->
+        <div class="goals-section">
+          <div class="goals-header">
+            <h3>⚽ Goal Scorers</h3>
+            <button type="button" class="btn-add-goal" onclick="addGoalRow(1)">+ Add Goal</button>
+          </div>
+          <div id="t1GoalsList" class="goal-list"></div>
         </div>
       </div>
 
@@ -404,12 +522,21 @@
             <button type="button" class="btn-plus" onclick="changeScore(2, 1)">+</button>
           </div>
         </div>
+
+        <!-- টিম ২ গোলদাতা লিস্ট -->
+        <div class="goals-section">
+          <div class="goals-header">
+            <h3>⚽ Goal Scorers</h3>
+            <button type="button" class="btn-add-goal" onclick="addGoalRow(2)">+ Add Goal</button>
+          </div>
+          <div id="t2GoalsList" class="goal-list"></div>
+        </div>
       </div>
     </div>
 
     <div class="actions">
       <button type="button" class="btn-save" onclick="saveData()">Save & Update Live Scoreboard</button>
-      <button type="button" class="btn-reset" onclick="resetScores()">Reset Score (0 - 0)</button>
+      <button type="button" class="btn-reset" onclick="resetMatch()">Reset Score & Goals</button>
     </div>
 
     <div id="toast" class="toast"></div>
@@ -472,7 +599,6 @@
 
     setInterval(updateAdminTimerUI, 500);
 
-    // টাইমার রিয়েল-টাইম সিঙ্ক
     timerRef.on('value', (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -556,7 +682,109 @@
       }
     }
 
-    // শুরুতে দল ও ব্যাকগ্রাউন্ডের ডাটা লোড
+    // গোলদাতার নতুন রো তৈরি
+    function addGoalRow(teamNum, goalData = null) {
+      const listEl = document.getElementById(teamNum === 1 ? 't1GoalsList' : 't2GoalsList');
+      const nextNum = listEl.children.length + 1;
+
+      // নতুন যোগ করার সময় চলমান টাইমার থাকলে অটো মিনিট বসিয়ে দেবে
+      const currentMin = Math.floor(getCurrentSeconds() / 60);
+      const defaultMin = goalData ? (goalData.minute || '') : (currentMin > 0 ? `${currentMin}'` : '');
+
+      const row = document.createElement('div');
+      row.className = 'goal-row';
+
+      const topDiv = document.createElement('div');
+      topDiv.className = 'goal-row-top';
+
+      // প্লেয়ার ছবির প্রিভিউ
+      const avatarBox = document.createElement('div');
+      avatarBox.className = 'goal-avatar-preview';
+      const avatarFallback = document.createElement('span');
+      avatarFallback.textContent = '⚽';
+      const avatarImg = document.createElement('img');
+      avatarBox.appendChild(avatarImg);
+      avatarBox.appendChild(avatarFallback);
+
+      function updateAvatar(url) {
+        if (url && url.trim() !== '') {
+          avatarImg.src = url.trim();
+          avatarImg.style.display = 'block';
+          avatarFallback.style.display = 'none';
+          avatarImg.onerror = () => {
+            avatarImg.style.display = 'none';
+            avatarFallback.style.display = 'inline';
+          };
+        } else {
+          avatarImg.style.display = 'none';
+          avatarFallback.style.display = 'inline';
+        }
+      }
+
+      const goalNoInput = document.createElement('input');
+      goalNoInput.type = 'text';
+      goalNoInput.className = 'input-goal-no';
+      goalNoInput.placeholder = 'গোল#';
+      goalNoInput.value = goalData ? (goalData.goalNo || nextNum) : nextNum;
+
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.className = 'input-player-name';
+      nameInput.placeholder = 'প্লেয়ারের নাম';
+      nameInput.value = goalData ? (goalData.name || '') : '';
+
+      const minInput = document.createElement('input');
+      minInput.type = 'text';
+      minInput.className = 'input-goal-min';
+      minInput.placeholder = "মিনিট (23')";
+      minInput.value = defaultMin;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'btn-remove-goal';
+      removeBtn.textContent = '✕';
+      removeBtn.title = 'মুছে ফেলুন';
+      removeBtn.onclick = () => row.remove();
+
+      topDiv.appendChild(avatarBox);
+      topDiv.appendChild(goalNoInput);
+      topDiv.appendChild(nameInput);
+      topDiv.appendChild(minInput);
+      topDiv.appendChild(removeBtn);
+
+      const photoInput = document.createElement('input');
+      photoInput.type = 'url';
+      photoInput.className = 'input-player-photo';
+      photoInput.placeholder = 'প্লেয়ারের ছবির লিংক (ImgBB Direct Link)';
+      photoInput.value = goalData ? (goalData.photo || '') : '';
+      photoInput.oninput = () => updateAvatar(photoInput.value);
+
+      if (goalData && goalData.photo) {
+        updateAvatar(goalData.photo);
+      }
+
+      row.appendChild(topDiv);
+      row.appendChild(photoInput);
+      listEl.appendChild(row);
+    }
+
+    function collectGoals(teamNum) {
+      const listEl = document.getElementById(teamNum === 1 ? 't1GoalsList' : 't2GoalsList');
+      const rows = listEl.querySelectorAll('.goal-row');
+      const goals = [];
+      rows.forEach((row) => {
+        const goalNo = row.querySelector('.input-goal-no').value.trim();
+        const name = row.querySelector('.input-player-name').value.trim();
+        const minute = row.querySelector('.input-goal-min').value.trim();
+        const photo = row.querySelector('.input-player-photo').value.trim();
+        if (name || minute || photo) {
+          goals.push({ goalNo, name, minute, photo });
+        }
+      });
+      return goals;
+    }
+
+    // শুরুতে দল, ব্যাকগ্রাউন্ড ও গোলদাতাদের ডাটা লোড
     scoreboardRef.once('value')
       .then((snapshot) => {
         const data = snapshot.val();
@@ -570,10 +798,16 @@
         document.getElementById('t1Score').value = data.team1?.score ?? 0;
         previewLogo('t1Logo', 't1Preview');
 
+        const t1Goals = Array.isArray(data.team1?.goals) ? data.team1.goals : Object.values(data.team1?.goals || {});
+        t1Goals.forEach((g) => addGoalRow(1, g));
+
         document.getElementById('t2Name').value = data.team2?.name || 'Team B';
         document.getElementById('t2Logo').value = data.team2?.logo || '';
         document.getElementById('t2Score').value = data.team2?.score ?? 0;
         previewLogo('t2Logo', 't2Preview');
+
+        const t2Goals = Array.isArray(data.team2?.goals) ? data.team2.goals : Object.values(data.team2?.goals || {});
+        t2Goals.forEach((g) => addGoalRow(2, g));
       })
       .catch((err) => {
         showToast('ডাটা লোড করতে সমস্যা হয়েছে: ' + err.message, true);
@@ -586,16 +820,17 @@
         team1: {
           name: document.getElementById('t1Name').value.trim() || 'Team A',
           logo: document.getElementById('t1Logo').value.trim(),
-          score: Math.max(0, parseInt(document.getElementById('t1Score').value) || 0)
+          score: Math.max(0, parseInt(document.getElementById('t1Score').value) || 0),
+          goals: collectGoals(1)
         },
         team2: {
           name: document.getElementById('t2Name').value.trim() || 'Team B',
           logo: document.getElementById('t2Logo').value.trim(),
-          score: Math.max(0, parseInt(document.getElementById('t2Score').value) || 0)
+          score: Math.max(0, parseInt(document.getElementById('t2Score').value) || 0),
+          goals: collectGoals(2)
         }
       };
 
-      // update() ব্যবহার করা হয়েছে যেন চলমান টাইমার রিসেট না হয়
       scoreboardRef.update(updates)
         .then(() => showToast(msg, false))
         .catch((err) => showToast('সেভ হয়নি! Firebase Rules চেক করুন: ' + err.message, true));
@@ -608,10 +843,12 @@
       saveData('স্কোর আপডেট হয়েছে!');
     }
 
-    function resetScores() {
+    function resetMatch() {
       document.getElementById('t1Score').value = 0;
       document.getElementById('t2Score').value = 0;
-      saveData('স্কোর 0 - 0 রিসেট করা হয়েছে!');
+      document.getElementById('t1GoalsList').innerHTML = '';
+      document.getElementById('t2GoalsList').innerHTML = '';
+      saveData('স্কোর 0 - 0 এবং গোলদাতার তালিকা রিসেট হয়েছে!');
     }
   </script>
 
