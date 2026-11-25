@@ -16,7 +16,7 @@
       min-height: 100vh;
       background: #0f172a;
       color: #f8fafc;
-      padding: 30px 16px;
+      padding: 24px 16px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -24,11 +24,11 @@
 
     .container {
       width: 100%;
-      max-width: 820px;
+      max-width: 860px;
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 16px;
-      padding: 28px;
+      padding: 26px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
@@ -38,7 +38,7 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       padding-bottom: 16px;
       border-bottom: 1px solid #334155;
     }
@@ -50,17 +50,17 @@
 
     .open-btn {
       text-decoration: none;
-      background: #334155;
+      background: #dc2626;
       color: #fff;
       padding: 9px 16px;
       border-radius: 8px;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 700;
       transition: background 0.2s;
     }
 
     .open-btn:hover {
-      background: #475569;
+      background: #ef4444;
     }
 
     .grid {
@@ -81,6 +81,104 @@
       font-size: 1.1rem;
       margin-bottom: 14px;
       color: #e2e8f0;
+    }
+
+    /* টাইমার কন্ট্রোল কার্ড */
+    .timer-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .timer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .admin-timer-display {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #facc15;
+      background: #1e293b;
+      border: 2px solid #facc15;
+      padding: 8px 22px;
+      border-radius: 12px;
+      letter-spacing: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-start { background: #16a34a; }
+    .btn-pause { background: #d97706; }
+    .btn-reset-timer { background: #475569; }
+    .btn-set-time { background: #0284c7; }
+
+    .manual-time-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #1e293b;
+    }
+
+    .manual-inputs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .manual-inputs input {
+      width: 72px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #fff;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+
+    .toggle-label input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
     }
 
     .form-group {
@@ -124,20 +222,10 @@
       font-weight: bold;
       cursor: pointer;
       color: #fff;
-      transition: transform 0.1s;
     }
 
-    .score-control button:active {
-      transform: scale(0.95);
-    }
-
-    .btn-minus {
-      background: #ef4444;
-    }
-
-    .btn-plus {
-      background: #22c55e;
-    }
+    .btn-minus { background: #ef4444; }
+    .btn-plus { background: #22c55e; }
 
     .score-control input {
       text-align: center;
@@ -226,17 +314,44 @@
       <a href="index.html" target="_blank" class="open-btn">Scoreboard দেখুন ↗</a>
     </div>
 
+    <!-- টাইমার কন্ট্রোল -->
+    <div class="card timer-panel">
+      <h2>Match Timer Control (মিনিট ও সেকেন্ড)</h2>
+      <div class="timer-top">
+        <div id="adminTimerDisplay" class="admin-timer-display">00:00</div>
+        <div class="timer-buttons">
+          <button type="button" class="btn btn-start" onclick="startTimer()">▶ Start</button>
+          <button type="button" class="btn btn-pause" onclick="pauseTimer()">⏸ Pause</button>
+          <button type="button" class="btn btn-reset-timer" onclick="resetTimer()">↺ Reset (00:00)</button>
+        </div>
+      </div>
+
+      <div class="manual-time-row">
+        <div class="manual-inputs">
+          <span style="font-size: 0.9rem; color: #94a3b8;">নিজে সময় সেট করুন:</span>
+          <input type="number" id="manualMin" value="0" min="0" placeholder="Min">
+          <span>:</span>
+          <input type="number" id="manualSec" value="0" min="0" max="59" placeholder="Sec">
+          <button type="button" class="btn btn-set-time" onclick="setManualTime()">Set Time</button>
+        </div>
+        <label class="toggle-label">
+          <input type="checkbox" id="showTimerToggle" checked onchange="toggleShowTimer()">
+          ডিসপ্লেতে টাইমার দেখান
+        </label>
+      </div>
+    </div>
+
     <!-- ব্যাকগ্রাউন্ড ও স্ট্যাটাস -->
     <div class="card" style="margin-bottom: 20px;">
-      <h2>Background & Status</h2>
+      <h2>Background & Live Status</h2>
       <div class="grid" style="margin-bottom: 0;">
         <div class="form-group" style="margin-bottom: 0;">
           <label>Background Image URL (ImgBB Direct Link)</label>
           <input type="url" id="bgImage" placeholder="https://i.ibb.co/...">
         </div>
         <div class="form-group" style="margin-bottom: 0;">
-          <label>Match Status (খালি রাখলে হাইড থাকবে)</label>
-          <input type="text" id="matchStatus" placeholder="LIVE / 1ST HALF / FULL TIME">
+          <label>Live Badge Text (লাল ব্লিঙ্কিং ব্যাজ, খালি রাখলে হাইড থাকবে)</label>
+          <input type="text" id="matchStatus" value="LIVE" placeholder="LIVE / 1ST HALF / FULL TIME">
         </div>
       </div>
     </div>
@@ -319,12 +434,114 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const scoreboardRef = db.ref('scoreboard');
+    const timerRef = scoreboardRef.child('timer');
+
+    let serverOffset = 0;
+    let timerState = { running: false, elapsedSeconds: 0, startTime: 0, show: true };
+
+    db.ref('.info/serverTimeOffset').on('value', (snap) => {
+      serverOffset = snap.val() || 0;
+    });
 
     function showToast(msg, isError = false) {
       const toast = document.getElementById('toast');
       toast.style.color = isError ? '#f87171' : '#4ade80';
       toast.textContent = msg;
       setTimeout(() => { toast.textContent = ''; }, 3000);
+    }
+
+    function getCurrentSeconds() {
+      let total = timerState.elapsedSeconds || 0;
+      if (timerState.running && timerState.startTime) {
+        const now = Date.now() + serverOffset;
+        total += Math.max(0, Math.floor((now - timerState.startTime) / 1000));
+      }
+      return total;
+    }
+
+    function formatTime(totalSeconds) {
+      const safeSec = Math.max(0, Math.floor(totalSeconds));
+      const mins = Math.floor(safeSec / 60);
+      const secs = safeSec % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function updateAdminTimerUI() {
+      document.getElementById('adminTimerDisplay').textContent = formatTime(getCurrentSeconds());
+    }
+
+    setInterval(updateAdminTimerUI, 500);
+
+    // টাইমার রিয়েল-টাইম সিঙ্ক
+    timerRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        timerState = {
+          running: !!data.running,
+          elapsedSeconds: data.elapsedSeconds || 0,
+          startTime: data.startTime || 0,
+          show: data.show !== false
+        };
+        document.getElementById('showTimerToggle').checked = timerState.show;
+      }
+      updateAdminTimerUI();
+    });
+
+    function startTimer() {
+      if (timerState.running) return;
+      timerRef.set({
+        running: true,
+        elapsedSeconds: timerState.elapsedSeconds || 0,
+        startTime: firebase.database.ServerValue.TIMESTAMP,
+        show: document.getElementById('showTimerToggle').checked
+      }).then(() => showToast('টাইমার চালু হয়েছে!'))
+        .catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    function pauseTimer() {
+      if (!timerState.running) return;
+      const currentSec = getCurrentSeconds();
+      timerRef.set({
+        running: false,
+        elapsedSeconds: currentSec,
+        startTime: 0,
+        show: document.getElementById('showTimerToggle').checked
+      }).then(() => showToast('টাইমার পজ করা হয়েছে!'))
+        .catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    function resetTimer() {
+      timerRef.set({
+        running: false,
+        elapsedSeconds: 0,
+        startTime: 0,
+        show: document.getElementById('showTimerToggle').checked
+      }).then(() => {
+        document.getElementById('manualMin').value = 0;
+        document.getElementById('manualSec').value = 0;
+        showToast('টাইমার 00:00 রিসেট হয়েছে!');
+      }).catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    function setManualTime() {
+      const mins = Math.max(0, parseInt(document.getElementById('manualMin').value) || 0);
+      const secs = Math.min(59, Math.max(0, parseInt(document.getElementById('manualSec').value) || 0));
+      const newTotal = (mins * 60) + secs;
+
+      timerRef.set({
+        running: timerState.running,
+        elapsedSeconds: newTotal,
+        startTime: timerState.running ? firebase.database.ServerValue.TIMESTAMP : 0,
+        show: document.getElementById('showTimerToggle').checked
+      }).then(() => showToast(`টাইমার ${formatTime(newTotal)} সেট করা হয়েছে!`))
+        .catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    function toggleShowTimer() {
+      const isChecked = document.getElementById('showTimerToggle').checked;
+      timerRef.update({ show: isChecked })
+        .then(() => showToast(isChecked ? 'টাইমার দেখানো হচ্ছে' : 'টাইমার হাইড করা হয়েছে'))
+        .catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
     }
 
     function previewLogo(inputId, imgId) {
@@ -339,7 +556,7 @@
       }
     }
 
-    // শুরুতে Firebase থেকে বর্তমান ডাটা লোড করা
+    // শুরুতে দল ও ব্যাকগ্রাউন্ডের ডাটা লোড
     scoreboardRef.once('value')
       .then((snapshot) => {
         const data = snapshot.val();
@@ -363,7 +580,7 @@
       });
 
     function saveData(msg = 'লাইভ স্কোরবোর্ড আপডেট হয়েছে!') {
-      const data = {
+      const updates = {
         bgImage: document.getElementById('bgImage').value.trim(),
         status: document.getElementById('matchStatus').value.trim(),
         team1: {
@@ -378,13 +595,10 @@
         }
       };
 
-      scoreboardRef.set(data)
-        .then(() => {
-          showToast(msg, false);
-        })
-        .catch((err) => {
-          showToast('সেভ হয়নি! Firebase Rules চেক করুন: ' + err.message, true);
-        });
+      // update() ব্যবহার করা হয়েছে যেন চলমান টাইমার রিসেট না হয়
+      scoreboardRef.update(updates)
+        .then(() => showToast(msg, false))
+        .catch((err) => showToast('সেভ হয়নি! Firebase Rules চেক করুন: ' + err.message, true));
     }
 
     function changeScore(teamNum, delta) {
