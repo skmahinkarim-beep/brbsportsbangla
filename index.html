@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRB Sports - Live Scoreboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #0f172a;
+      background-image: linear-gradient(135deg, #0f172a, #1e293b);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      padding: 20px;
+      position: relative;
+      transition: background-image 0.4s ease;
+    }
+
+    /* ব্যাকগ্রাউন্ড ছবির ওপর হালকা ডার্ক শেড */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 0;
+    }
+
+    .scoreboard {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 780px;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 30px 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 32%;
+      text-align: center;
+    }
+
+    .logo-box {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+
+    .logo-placeholder {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .team-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #f8fafc;
+      word-break: break-word;
+    }
+
+    .score-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 36%;
+    }
+
+    .score {
+      font-size: 4.5rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: #ffffff;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .divider {
+      color: #38bdf8;
+    }
+
+    .match-status {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 600px) {
+      .scoreboard {
+        padding: 20px 14px;
+      }
+      .logo-box {
+        width: 66px;
+        height: 66px;
+      }
+      .team-name {
+        font-size: 0.95rem;
+      }
+      .score {
+        font-size: 2.8rem;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scoreboard">
+    <!-- বাম পাশের দল -->
+    <div class="team">
+      <div class="logo-box">
+        <img id="team1Logo" src="" alt="Team 1 Logo">
+        <span id="team1Placeholder" class="logo-placeholder">LOGO</span>
+      </div>
+      <div id="team1Name" class="team-name">Team A</div>
+    </div>
+
+    <!-- মাঝখানের স্কোর -->
+    <div class="score-section">
+      <div class="score">
+        <span id="team1Score">0</span>
+        <span class="divider">-</span>
+        <span id="team2Score">0</span>
+      </div>
+      <div id="matchStatus" class="match-status">LIVE</div>
+    </div>
+
+    <!-- ডান পাশের দল -->
+    <div class="team">
+      <div class="logo-box">
+        <img id="team2Logo" src="" alt="Team 2 Logo">
+        <span id="team2Placeholder" class="logo-placeholder">LOGO</span>
+      </div>
+      <div id="team2Name" class="team-name">Team B</div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCPPXUn-8wbzu2HvhG_Lh5R8SDesFp-5i8",
+      authDomain: "brb-sports-bangla.firebaseapp.com",
+      databaseURL: "https://brb-sports-bangla-default-rtdb.firebaseio.com",
+      projectId: "brb-sports-bangla",
+      storageBucket: "brb-sports-bangla.firebasestorage.app",
+      messagingSenderId: "507558167561",
+      appId: "1:507558167561:web:233806ac51f8a0a442a4d8",
+      measurementId: "G-VCFZTE49JJ"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const scoreboardRef = db.ref('scoreboard');
+
+    function setLogo(imgEl, placeholderEl, url) {
+      if (url && url.trim() !== '') {
+        imgEl.src = url.trim();
+        imgEl.style.display = 'block';
+        placeholderEl.style.display = 'none';
+        imgEl.onerror = () => {
+          imgEl.style.display = 'none';
+          placeholderEl.style.display = 'block';
+        };
+      } else {
+        imgEl.src = '';
+        imgEl.style.display = 'none';
+        placeholderEl.style.display = 'block';
+      }
+    }
+
+    // Firebase থেকে রিয়েল-টাইম ডাটা শোনা
+    scoreboardRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+
+      // ব্যাকগ্রাউন্ড ইমেজ
+      if (data.bgImage && data.bgImage.trim() !== '') {
+        document.body.style.backgroundImage = `url('${data.bgImage.trim()}')`;
+      } else {
+        document.body.style.backgroundImage = 'linear-gradient(135deg, #0f172a, #1e293b)';
+      }
+
+      // টিম ১
+      document.getElementById('team1Name').textContent = data.team1?.name || 'Team A';
+      document.getElementById('team1Score').textContent = data.team1?.score ?? 0;
+      setLogo(
+        document.getElementById('team1Logo'),
+        document.getElementById('team1Placeholder'),
+        data.team1?.logo
+      );
+
+      // টিম ২
+      document.getElementById('team2Name').textContent = data.team2?.name || 'Team B';
+      document.getElementById('team2Score').textContent = data.team2?.score ?? 0;
+      setLogo(
+        document.getElementById('team2Logo'),
+        document.getElementById('team2Placeholder'),
+        data.team2?.logo
+      );
+
+      // ম্যাচ স্ট্যাটাস
+      const statusEl = document.getElementById('matchStatus');
+      if (data.status && data.status.trim() !== '') {
+        statusEl.textContent = data.status.trim();
+        statusEl.style.display = 'inline-block';
+      } else {
+        statusEl.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
