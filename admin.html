@@ -24,7 +24,7 @@
 
     .container {
       width: 100%;
-      max-width: 960px;
+      max-width: 980px;
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 16px;
@@ -56,11 +56,6 @@
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 700;
-      transition: background 0.2s;
-    }
-
-    .open-btn:hover {
-      background: #ef4444;
     }
 
     .grid {
@@ -83,7 +78,38 @@
       color: #e2e8f0;
     }
 
-    /* টাইমার কন্ট্রোল কার্ড */
+    /* মিউজিক কন্ট্রোল */
+    .music-panel {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .music-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .music-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .volume-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    /* টাইমার কন্ট্রোল */
     .timer-panel {
       display: flex;
       flex-direction: column;
@@ -100,7 +126,7 @@
     }
 
     .admin-timer-display {
-      font-size: 2.5rem;
+      font-size: 2.4rem;
       font-weight: 900;
       color: #facc15;
       background: #1e293b;
@@ -121,21 +147,20 @@
       border: none;
       padding: 10px 16px;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       cursor: pointer;
       color: #fff;
-      transition: opacity 0.2s, transform 0.1s;
+      transition: transform 0.1s;
     }
 
-    .btn:active {
-      transform: scale(0.96);
-    }
-
+    .btn:active { transform: scale(0.96); }
     .btn-start { background: #16a34a; }
     .btn-pause { background: #d97706; }
     .btn-reset-timer { background: #475569; }
     .btn-set-time { background: #0284c7; }
+    .btn-music-play { background: #9333ea; }
+    .btn-music-stop { background: #475569; }
 
     .manual-time-row {
       display: flex;
@@ -155,7 +180,7 @@
     }
 
     .manual-inputs input {
-      width: 72px;
+      width: 70px;
       padding: 8px;
       border-radius: 8px;
       border: 1px solid #334155;
@@ -175,15 +200,9 @@
       cursor: pointer;
     }
 
-    .toggle-label input {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-    }
+    .toggle-label input { width: 18px; height: 18px; cursor: pointer; }
 
-    .form-group {
-      margin-bottom: 14px;
-    }
+    .form-group { margin-bottom: 14px; }
 
     .form-group label {
       display: block;
@@ -203,9 +222,7 @@
       outline: none;
     }
 
-    .form-group input:focus {
-      border-color: #38bdf8;
-    }
+    .form-group input:focus { border-color: #38bdf8; }
 
     .score-control {
       display: flex;
@@ -226,17 +243,12 @@
 
     .btn-minus { background: #ef4444; }
     .btn-plus { background: #22c55e; }
-
-    .score-control input {
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
+    .score-control input { text-align: center; font-size: 1.2rem; font-weight: 700; }
 
     .logo-preview {
       margin-top: 8px;
-      width: 56px;
-      height: 56px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       border: 1px solid #334155;
       background: #1e293b;
@@ -246,12 +258,25 @@
       overflow: hidden;
     }
 
-    .logo-preview img {
+    .logo-preview img { width: 100%; height: 100%; object-fit: contain; display: none; }
+
+    /* উইন বাটন (দলের নামের নিচে/কার্ডে) */
+    .btn-win {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: none;
+      margin-top: 14px;
+      background: linear-gradient(135deg, #f59e0b, #eab308);
+      color: #0f172a;
+      border: none;
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(234, 179, 8, 0.35);
+      transition: transform 0.15s;
     }
+
+    .btn-win:hover { transform: translateY(-1px); }
 
     /* গোলদাতা অ্যাড করার সেকশন */
     .goals-section {
@@ -267,10 +292,7 @@
       margin-bottom: 12px;
     }
 
-    .goals-header h3 {
-      font-size: 0.95rem;
-      color: #facc15;
-    }
+    .goals-header h3 { font-size: 0.95rem; color: #facc15; }
 
     .btn-add-goal {
       background: #0ea5e9;
@@ -283,15 +305,7 @@
       cursor: pointer;
     }
 
-    .btn-add-goal:hover {
-      background: #38bdf8;
-    }
-
-    .goal-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .goal-list { display: flex; flex-direction: column; gap: 10px; }
 
     .goal-row {
       background: #1e293b;
@@ -303,15 +317,11 @@
       gap: 8px;
     }
 
-    .goal-row-top {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .goal-row-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
     .goal-avatar-preview {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: 1px solid #facc15;
       background: #0f172a;
@@ -320,7 +330,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .goal-avatar-preview img {
@@ -332,7 +342,7 @@
     }
 
     .goal-row input {
-      padding: 7px 9px;
+      padding: 7px 8px;
       border-radius: 6px;
       border: 1px solid #334155;
       background: #0f172a;
@@ -341,21 +351,35 @@
       outline: none;
     }
 
-    .goal-row input:focus {
-      border-color: #38bdf8;
+    .input-goal-no { width: 52px; text-align: center; font-weight: 700; }
+    .input-player-name { flex: 1; min-width: 90px; }
+    .input-goal-min { width: 62px; text-align: center; font-weight: 700; color: #facc15 !important; }
+    .input-player-photo { width: 100%; }
+
+    .goal-row-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
 
-    .input-goal-no { width: 58px; text-align: center; font-weight: 700; }
-    .input-player-name { flex: 1; min-width: 100px; }
-    .input-goal-min { width: 68px; text-align: center; font-weight: 700; color: #facc15 !important; }
-    .input-player-photo { width: 100%; }
+    .btn-celebrate-goal {
+      flex: 1;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+      border: none;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
     .btn-remove-goal {
       background: #ef4444;
       color: #fff;
       border: none;
-      width: 30px;
-      height: 32px;
+      width: 32px;
+      height: 30px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
@@ -381,23 +405,26 @@
       cursor: pointer;
     }
 
-    .btn-save:hover {
-      background: #0ea5e9;
+    .btn-close-win {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 13px 18px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .btn-reset {
       background: #475569;
       color: #fff;
       border: none;
-      padding: 13px 20px;
+      padding: 13px 18px;
       border-radius: 10px;
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-    }
-
-    .btn-reset:hover {
-      background: #64748b;
     }
 
     .toast {
@@ -408,10 +435,8 @@
       min-height: 22px;
     }
 
-    @media (max-width: 760px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 780px) {
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -423,9 +448,32 @@
       <a href="index.html" target="_blank" class="open-btn">Scoreboard দেখুন ↗</a>
     </div>
 
+    <!-- ব্যাকগ্রাউন্ড মিউজিক কন্ট্রোল -->
+    <div class="card music-panel">
+      <h2>🎵 Background Music & Sound Control</h2>
+      <div class="music-row">
+        <div class="music-controls">
+          <button type="button" class="btn btn-music-play" onclick="setMusicPlaying(true)">▶ Play Music</button>
+          <button type="button" class="btn btn-music-stop" onclick="setMusicPlaying(false)">⏸ Pause Music</button>
+        </div>
+        <div class="volume-wrap">
+          <span>Volume:</span>
+          <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.4" oninput="updateMusicSettings()">
+          <span id="volText">40%</span>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Custom Music MP3 Link (খালি রাখলে বিল্ট-ইন মিউজিক বাজবে)</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="url" id="musicUrl" placeholder="https://example.com/music.mp3">
+          <button type="button" class="btn btn-set-time" onclick="updateMusicSettings()">Set</button>
+        </div>
+      </div>
+    </div>
+
     <!-- টাইমার কন্ট্রোল -->
     <div class="card timer-panel">
-      <h2>Match Timer Control (মিনিট ও সেকেন্ড)</h2>
+      <h2>⏱ Match Timer Control (মিনিট ও সেকেন্ড)</h2>
       <div class="timer-top">
         <div id="adminTimerDisplay" class="admin-timer-display">00:00</div>
         <div class="timer-buttons">
@@ -438,9 +486,9 @@
       <div class="manual-time-row">
         <div class="manual-inputs">
           <span style="font-size: 0.9rem; color: #94a3b8;">নিজে সময় সেট করুন:</span>
-          <input type="number" id="manualMin" value="0" min="0" placeholder="Min">
+          <input type="number" id="manualMin" value="0" min="0">
           <span>:</span>
-          <input type="number" id="manualSec" value="0" min="0" max="59" placeholder="Sec">
+          <input type="number" id="manualSec" value="0" min="0" max="59">
           <button type="button" class="btn btn-set-time" onclick="setManualTime()">Set Time</button>
         </div>
         <label class="toggle-label">
@@ -465,7 +513,7 @@
       </div>
     </div>
 
-    <!-- দুই দলের সেটিংস ও গোলদাতা -->
+    <!-- দুই দলের সেটিংস, গোলদাতা ও WIN বাটন -->
     <div class="grid">
       <!-- টিম ১ -->
       <div class="card">
@@ -489,6 +537,9 @@
             <button type="button" class="btn-plus" onclick="changeScore(1, 1)">+</button>
           </div>
         </div>
+
+        <!-- টিম ১ WIN বাটন -->
+        <button type="button" class="btn-win" onclick="declareWinner(1)">🏆 Team 1 WIN (সেলিব্রেশন)</button>
 
         <!-- টিম ১ গোলদাতা লিস্ট -->
         <div class="goals-section">
@@ -523,6 +574,9 @@
           </div>
         </div>
 
+        <!-- টিম ২ WIN বাটন -->
+        <button type="button" class="btn-win" onclick="declareWinner(2)">🏆 Team 2 WIN (সেলিব্রেশন)</button>
+
         <!-- টিম ২ গোলদাতা লিস্ট -->
         <div class="goals-section">
           <div class="goals-header">
@@ -536,6 +590,7 @@
 
     <div class="actions">
       <button type="button" class="btn-save" onclick="saveData()">Save & Update Live Scoreboard</button>
+      <button type="button" class="btn-close-win" onclick="clearWinner()">✖ উইনার স্ক্রিন বন্ধ করুন</button>
       <button type="button" class="btn-reset" onclick="resetMatch()">Reset Score & Goals</button>
     </div>
 
@@ -562,9 +617,11 @@
     const db = firebase.database();
     const scoreboardRef = db.ref('scoreboard');
     const timerRef = scoreboardRef.child('timer');
+    const musicRef = scoreboardRef.child('music');
 
     let serverOffset = 0;
     let timerState = { running: false, elapsedSeconds: 0, startTime: 0, show: true };
+    let musicPlaying = false;
 
     db.ref('.info/serverTimeOffset').on('value', (snap) => {
       serverOffset = snap.val() || 0;
@@ -577,6 +634,26 @@
       setTimeout(() => { toast.textContent = ''; }, 3000);
     }
 
+    // ================= মিউজিক কন্ট্রোল =================
+    function setMusicPlaying(play) {
+      musicPlaying = play;
+      updateMusicSettings(play ? '🎵 ব্যাকগ্রাউন্ড মিউজিক চালু হয়েছে!' : '⏸ মিউজিক বন্ধ করা হয়েছে!');
+    }
+
+    function updateMusicSettings(toastMsg = 'মিউজিক সেটিংস আপডেট হয়েছে!') {
+      const vol = parseFloat(document.getElementById('musicVolume').value) || 0;
+      document.getElementById('volText').textContent = Math.round(vol * 100) + '%';
+      const customUrl = document.getElementById('musicUrl').value.trim();
+
+      musicRef.set({
+        playing: musicPlaying,
+        volume: vol,
+        customUrl: customUrl
+      }).then(() => showToast(toastMsg))
+        .catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    // ================= টাইমার কন্ট্রোল =================
     function getCurrentSeconds() {
       let total = timerState.elapsedSeconds || 0;
       if (timerState.running && timerState.startTime) {
@@ -670,6 +747,7 @@
         .catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
     }
 
+    // ================= দল, গোলদাতা ও সেলিব্রেশন =================
     function previewLogo(inputId, imgId) {
       const url = document.getElementById(inputId).value.trim();
       const img = document.getElementById(imgId);
@@ -682,12 +760,9 @@
       }
     }
 
-    // গোলদাতার নতুন রো তৈরি
     function addGoalRow(teamNum, goalData = null) {
       const listEl = document.getElementById(teamNum === 1 ? 't1GoalsList' : 't2GoalsList');
       const nextNum = listEl.children.length + 1;
-
-      // নতুন যোগ করার সময় চলমান টাইমার থাকলে অটো মিনিট বসিয়ে দেবে
       const currentMin = Math.floor(getCurrentSeconds() / 60);
       const defaultMin = goalData ? (goalData.minute || '') : (currentMin > 0 ? `${currentMin}'` : '');
 
@@ -697,7 +772,6 @@
       const topDiv = document.createElement('div');
       topDiv.className = 'goal-row-top';
 
-      // প্লেয়ার ছবির প্রিভিউ
       const avatarBox = document.createElement('div');
       avatarBox.className = 'goal-avatar-preview';
       const avatarFallback = document.createElement('span');
@@ -739,18 +813,10 @@
       minInput.placeholder = "মিনিট (23')";
       minInput.value = defaultMin;
 
-      const removeBtn = document.createElement('button');
-      removeBtn.type = 'button';
-      removeBtn.className = 'btn-remove-goal';
-      removeBtn.textContent = '✕';
-      removeBtn.title = 'মুছে ফেলুন';
-      removeBtn.onclick = () => row.remove();
-
       topDiv.appendChild(avatarBox);
       topDiv.appendChild(goalNoInput);
       topDiv.appendChild(nameInput);
       topDiv.appendChild(minInput);
-      topDiv.appendChild(removeBtn);
 
       const photoInput = document.createElement('input');
       photoInput.type = 'url';
@@ -759,12 +825,37 @@
       photoInput.value = goalData ? (goalData.photo || '') : '';
       photoInput.oninput = () => updateAvatar(photoInput.value);
 
-      if (goalData && goalData.photo) {
-        updateAvatar(goalData.photo);
-      }
+      if (goalData && goalData.photo) updateAvatar(goalData.photo);
+
+      const actionDiv = document.createElement('div');
+      actionDiv.className = 'goal-row-actions';
+
+      const celebrateBtn = document.createElement('button');
+      celebrateBtn.type = 'button';
+      celebrateBtn.className = 'btn-celebrate-goal';
+      celebrateBtn.textContent = '🎉 Celebrate Goal + সাউন্ড';
+      celebrateBtn.onclick = () => {
+        celebrateGoal(teamNum, {
+          goalNo: goalNoInput.value.trim(),
+          name: nameInput.value.trim(),
+          minute: minInput.value.trim(),
+          photo: photoInput.value.trim()
+        });
+      };
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'btn-remove-goal';
+      removeBtn.textContent = '✕';
+      removeBtn.title = 'মুছে ফেলুন';
+      removeBtn.onclick = () => row.remove();
+
+      actionDiv.appendChild(celebrateBtn);
+      actionDiv.appendChild(removeBtn);
 
       row.appendChild(topDiv);
       row.appendChild(photoInput);
+      row.appendChild(actionDiv);
       listEl.appendChild(row);
     }
 
@@ -784,7 +875,93 @@
       return goals;
     }
 
-    // শুরুতে দল, ব্যাকগ্রাউন্ড ও গোলদাতাদের ডাটা লোড
+    function buildUpdatesObject() {
+      return {
+        bgImage: document.getElementById('bgImage').value.trim(),
+        status: document.getElementById('matchStatus').value.trim(),
+        team1: {
+          name: document.getElementById('t1Name').value.trim() || 'Team A',
+          logo: document.getElementById('t1Logo').value.trim(),
+          score: Math.max(0, parseInt(document.getElementById('t1Score').value) || 0),
+          goals: collectGoals(1)
+        },
+        team2: {
+          name: document.getElementById('t2Name').value.trim() || 'Team B',
+          logo: document.getElementById('t2Logo').value.trim(),
+          score: Math.max(0, parseInt(document.getElementById('t2Score').value) || 0),
+          goals: collectGoals(2)
+        }
+      };
+    }
+
+    function saveData(msg = 'লাইভ স্কোরবোর্ড আপডেট হয়েছে!') {
+      const updates = buildUpdatesObject();
+      return scoreboardRef.update(updates)
+        .then(() => showToast(msg, false))
+        .catch((err) => showToast('সেভ হয়নি! Firebase Rules চেক করুন: ' + err.message, true));
+    }
+
+    function celebrateGoal(teamNum, goalObj) {
+      const updates = buildUpdatesObject();
+      const teamInfo = teamNum === 1 ? updates.team1 : updates.team2;
+
+      scoreboardRef.update(updates).then(() => {
+        return scoreboardRef.child('celebration').set({
+          id: Date.now(),
+          teamNum: teamNum,
+          teamName: teamInfo.name,
+          teamLogo: teamInfo.logo,
+          goalNo: goalObj.goalNo,
+          playerName: goalObj.name || 'Goal Scorer',
+          playerPhoto: goalObj.photo,
+          minute: goalObj.minute
+        });
+      }).then(() => {
+        showToast(`🎉 ${goalObj.name || 'গোল'} সেলিব্রেশন ও সাউন্ড পাঠানো হয়েছে!`);
+      }).catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    function declareWinner(teamNum) {
+      const updates = buildUpdatesObject();
+      const winTeamName = teamNum === 1 ? updates.team1.name : updates.team2.name;
+
+      scoreboardRef.update(updates).then(() => {
+        return scoreboardRef.child('winner').set({
+          active: true,
+          id: Date.now(),
+          teamNum: teamNum
+        });
+      }).then(() => {
+        showToast(`🏆 ${winTeamName} WIN সেলিব্রেশন শুরু হয়েছে!`);
+      }).catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    function clearWinner() {
+      scoreboardRef.child('winner').set({
+        active: false,
+        id: 0,
+        teamNum: 0
+      }).then(() => showToast('উইনার স্ক্রিন বন্ধ করা হয়েছে!'))
+        .catch((err) => showToast('সমস্যা হয়েছে: ' + err.message, true));
+    }
+
+    function changeScore(teamNum, delta) {
+      const input = document.getElementById(teamNum === 1 ? 't1Score' : 't2Score');
+      const current = parseInt(input.value) || 0;
+      input.value = Math.max(0, current + delta);
+      saveData('স্কোর আপডেট হয়েছে!');
+    }
+
+    function resetMatch() {
+      document.getElementById('t1Score').value = 0;
+      document.getElementById('t2Score').value = 0;
+      document.getElementById('t1GoalsList').innerHTML = '';
+      document.getElementById('t2GoalsList').innerHTML = '';
+      clearWinner();
+      saveData('স্কোর 0 - 0 এবং গোলদাতার তালিকা রিসেট হয়েছে!');
+    }
+
+    // শুরুতে সব ডাটা লোড
     scoreboardRef.once('value')
       .then((snapshot) => {
         const data = snapshot.val();
@@ -808,48 +985,18 @@
 
         const t2Goals = Array.isArray(data.team2?.goals) ? data.team2.goals : Object.values(data.team2?.goals || {});
         t2Goals.forEach((g) => addGoalRow(2, g));
+
+        if (data.music) {
+          musicPlaying = !!data.music.playing;
+          const vol = typeof data.music.volume === 'number' ? data.music.volume : 0.4;
+          document.getElementById('musicVolume').value = vol;
+          document.getElementById('volText').textContent = Math.round(vol * 100) + '%';
+          document.getElementById('musicUrl').value = data.music.customUrl || '';
+        }
       })
       .catch((err) => {
         showToast('ডাটা লোড করতে সমস্যা হয়েছে: ' + err.message, true);
       });
-
-    function saveData(msg = 'লাইভ স্কোরবোর্ড আপডেট হয়েছে!') {
-      const updates = {
-        bgImage: document.getElementById('bgImage').value.trim(),
-        status: document.getElementById('matchStatus').value.trim(),
-        team1: {
-          name: document.getElementById('t1Name').value.trim() || 'Team A',
-          logo: document.getElementById('t1Logo').value.trim(),
-          score: Math.max(0, parseInt(document.getElementById('t1Score').value) || 0),
-          goals: collectGoals(1)
-        },
-        team2: {
-          name: document.getElementById('t2Name').value.trim() || 'Team B',
-          logo: document.getElementById('t2Logo').value.trim(),
-          score: Math.max(0, parseInt(document.getElementById('t2Score').value) || 0),
-          goals: collectGoals(2)
-        }
-      };
-
-      scoreboardRef.update(updates)
-        .then(() => showToast(msg, false))
-        .catch((err) => showToast('সেভ হয়নি! Firebase Rules চেক করুন: ' + err.message, true));
-    }
-
-    function changeScore(teamNum, delta) {
-      const input = document.getElementById(teamNum === 1 ? 't1Score' : 't2Score');
-      const current = parseInt(input.value) || 0;
-      input.value = Math.max(0, current + delta);
-      saveData('স্কোর আপডেট হয়েছে!');
-    }
-
-    function resetMatch() {
-      document.getElementById('t1Score').value = 0;
-      document.getElementById('t2Score').value = 0;
-      document.getElementById('t1GoalsList').innerHTML = '';
-      document.getElementById('t2GoalsList').innerHTML = '';
-      saveData('স্কোর 0 - 0 এবং গোলদাতার তালিকা রিসেট হয়েছে!');
-    }
   </script>
 
 </body>
