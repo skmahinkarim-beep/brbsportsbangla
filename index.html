@@ -33,38 +33,39 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.48);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 0;
     }
 
     .scoreboard {
       position: relative;
       z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       width: 100%;
-      max-width: 1020px;
-      background: rgba(15, 23, 42, 0.78);
+      max-width: 1040px;
+      background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(14px);
       border: 2px solid rgba(255, 255, 255, 0.2);
       border-radius: 30px;
-      padding: 44px 52px;
+      padding: 40px 46px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+      display: grid;
+      grid-template-columns: 1fr 1.15fr 1fr;
+      row-gap: 22px;
+      column-gap: 16px;
+      align-items: center;
     }
 
     .team {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
-      width: 31%;
+      gap: 16px;
       text-align: center;
     }
 
     .logo-box {
-      width: 145px;
-      height: 145px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.12);
       border: 3px solid rgba(255, 255, 255, 0.3);
@@ -90,7 +91,7 @@
     }
 
     .team-name {
-      font-size: 1.85rem;
+      font-size: 1.8rem;
       font-weight: 800;
       letter-spacing: 0.5px;
       color: #ffffff;
@@ -98,35 +99,34 @@
       text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
     }
 
+    /* মাঝখানের সেকশন: লাইভ, স্কোর, টাইমার */
     .score-section {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 18px;
-      width: 38%;
+      gap: 16px;
     }
 
-    /* লাল ও ধপধপ করা LIVE ব্যাজ */
     .live-badge {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       background: linear-gradient(135deg, #dc2626, #ef4444);
       color: #ffffff;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 2px;
-      padding: 8px 22px;
+      padding: 7px 22px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.35);
       animation: liveGlow 1.2s infinite ease-in-out;
     }
 
     .live-dot {
-      width: 11px;
-      height: 11px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #ffffff;
       animation: dotBlink 1.2s infinite ease-in-out;
@@ -144,17 +144,12 @@
     }
 
     @keyframes dotBlink {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.2;
-      }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
     }
 
-    /* বড় স্কোর */
     .score {
-      font-size: 6.4rem;
+      font-size: 6.2rem;
       font-weight: 900;
       letter-spacing: 4px;
       color: #ffffff;
@@ -170,7 +165,6 @@
       color: #38bdf8;
     }
 
-    /* সবার চোখে পড়ার মতো টাইমার */
     .timer-box {
       display: inline-flex;
       align-items: center;
@@ -178,53 +172,177 @@
       background: rgba(2, 6, 23, 0.85);
       border: 2px solid #facc15;
       color: #facc15;
-      font-size: 2.35rem;
+      font-size: 2.2rem;
       font-weight: 800;
       letter-spacing: 2px;
-      padding: 10px 28px;
+      padding: 8px 26px;
       border-radius: 16px;
       box-shadow: 0 0 22px rgba(250, 204, 21, 0.28);
       font-variant-numeric: tabular-nums;
     }
 
     .timer-icon {
-      font-size: 1.7rem;
+      font-size: 1.6rem;
+    }
+
+    /* নিচের গোলদাতাদের অংশ (দুই দলের নিচে বরাবর, ছোট ও মাঝখান বরাবর সাজানো) */
+    .goals-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      align-self: start;
+      width: 100%;
+    }
+
+    .goals-center-spacer {
+      align-self: start;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 4px;
+    }
+
+    .goals-divider-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .goal-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      padding: 5px 12px 5px 8px;
+      max-width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .goal-num {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 2px 6px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .player-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1.5px solid #facc15;
+      background: rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+
+    .player-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .player-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 145px;
+    }
+
+    .goal-min {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #facc15;
+      flex-shrink: 0;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     /* মোবাইল ও ছোট স্ক্রিনের জন্য রেসপনসিভ */
     @media (max-width: 768px) {
       .scoreboard {
-        padding: 26px 18px;
+        padding: 24px 14px;
         border-radius: 22px;
+        row-gap: 14px;
+        column-gap: 8px;
       }
       .logo-box {
-        width: 84px;
-        height: 84px;
+        width: 80px;
+        height: 80px;
         padding: 8px;
       }
       .team-name {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
       }
       .live-badge {
-        font-size: 0.8rem;
-        padding: 5px 14px;
+        font-size: 0.75rem;
+        padding: 4px 12px;
         gap: 6px;
       }
       .live-dot {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
       }
       .score {
-        font-size: 3.4rem;
-        gap: 8px;
+        font-size: 3.1rem;
+        gap: 6px;
       }
       .timer-box {
-        font-size: 1.4rem;
-        padding: 6px 16px;
-        border-radius: 12px;
+        font-size: 1.25rem;
+        padding: 5px 14px;
+        border-radius: 10px;
+        gap: 6px;
       }
       .timer-icon {
-        font-size: 1.1rem;
+        font-size: 1rem;
+      }
+      .goal-item {
+        padding: 4px 8px 4px 5px;
+        gap: 5px;
+      }
+      .player-avatar {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+      }
+      .goal-num {
+        font-size: 0.62rem;
+        padding: 1px 5px;
+      }
+      .player-name {
+        font-size: 0.72rem;
+        max-width: 72px;
+      }
+      .goal-min {
+        font-size: 0.7rem;
+      }
+      .goals-divider-label {
+        font-size: 0.62rem;
+        padding: 3px 8px;
       }
     }
   </style>
@@ -232,7 +350,7 @@
 <body>
 
   <div class="scoreboard">
-    <!-- বাম পাশের দল -->
+    <!-- সারি ১, কলাম ১: বাম পাশের দল -->
     <div class="team">
       <div class="logo-box">
         <img id="team1Logo" src="" alt="Team 1 Logo">
@@ -241,7 +359,7 @@
       <div id="team1Name" class="team-name">Team A</div>
     </div>
 
-    <!-- মাঝখানের স্ট্যাটাস, স্কোর ও টাইমার -->
+    <!-- সারি ১, কলাম ২: মাঝখানের স্ট্যাটাস, স্কোর ও টাইমার -->
     <div class="score-section">
       <div id="liveBadge" class="live-badge">
         <span class="live-dot"></span>
@@ -260,7 +378,7 @@
       </div>
     </div>
 
-    <!-- ডান পাশের দল -->
+    <!-- সারি ১, কলাম ৩: ডান পাশের দল -->
     <div class="team">
       <div class="logo-box">
         <img id="team2Logo" src="" alt="Team 2 Logo">
@@ -268,6 +386,13 @@
       </div>
       <div id="team2Name" class="team-name">Team B</div>
     </div>
+
+    <!-- সারি ২: গোলদাতাদের তালিকা (যখন গোল যোগ করা হবে তখনই দেখাবে) -->
+    <div id="team1GoalsCol" class="goals-col hidden"></div>
+    <div id="goalsCenterCol" class="goals-center-spacer hidden">
+      <span class="goals-divider-label">⚽ Goals</span>
+    </div>
+    <div id="team2GoalsCol" class="goals-col hidden"></div>
   </div>
 
   <!-- Firebase SDK -->
@@ -293,7 +418,6 @@
     let serverOffset = 0;
     let timerState = { running: false, elapsedSeconds: 0, startTime: 0, show: true };
 
-    // সার্ভার টাইম অফসেট নেওয়া যাতে সব ডিভাইসে একদম সঠিক টাইমার চলে
     db.ref('.info/serverTimeOffset').on('value', (snap) => {
       serverOffset = snap.val() || 0;
     });
@@ -340,6 +464,60 @@
       }
     }
 
+    function renderGoalsList(containerEl, goalsRaw) {
+      const goals = Array.isArray(goalsRaw) ? goalsRaw : Object.values(goalsRaw || {});
+      containerEl.innerHTML = '';
+
+      goals.forEach((g, index) => {
+        if (!g) return;
+        const item = document.createElement('div');
+        item.className = 'goal-item';
+
+        // গোল নাম্বার
+        const numSpan = document.createElement('span');
+        numSpan.className = 'goal-num';
+        numSpan.textContent = g.goalNo ? `#${g.goalNo}` : `#${index + 1}`;
+        item.appendChild(numSpan);
+
+        // প্লেয়ারের গোল মাথার ছবি
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'player-avatar';
+        if (g.photo && g.photo.trim() !== '') {
+          const img = document.createElement('img');
+          img.src = g.photo.trim();
+          img.alt = g.name || 'Player';
+          img.onerror = () => {
+            avatarDiv.innerHTML = '⚽';
+          };
+          avatarDiv.appendChild(img);
+        } else {
+          avatarDiv.textContent = '⚽';
+        }
+        item.appendChild(avatarDiv);
+
+        // প্লেয়ারের নাম
+        if (g.name && g.name.trim() !== '') {
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'player-name';
+          nameSpan.textContent = g.name.trim();
+          item.appendChild(nameSpan);
+        }
+
+        // কত মিনিটে গোল করল
+        if (g.minute && g.minute.trim() !== '') {
+          const minSpan = document.createElement('span');
+          minSpan.className = 'goal-min';
+          const minText = g.minute.trim();
+          minSpan.textContent = minText.includes("'") ? minText : `${minText}'`;
+          item.appendChild(minSpan);
+        }
+
+        containerEl.appendChild(item);
+      });
+
+      return goals.length > 0;
+    }
+
     // Firebase থেকে রিয়েল-টাইম ডাটা লোড
     scoreboardRef.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -378,6 +556,24 @@
         badgeEl.style.display = 'inline-flex';
       } else {
         badgeEl.style.display = 'none';
+      }
+
+      // গোলদাতাদের তালিকা রেন্ডার
+      const t1Col = document.getElementById('team1GoalsCol');
+      const t2Col = document.getElementById('team2GoalsCol');
+      const centerCol = document.getElementById('goalsCenterCol');
+
+      const hasT1Goals = renderGoalsList(t1Col, data.team1?.goals);
+      const hasT2Goals = renderGoalsList(t2Col, data.team2?.goals);
+
+      if (hasT1Goals || hasT2Goals) {
+        t1Col.classList.remove('hidden');
+        t2Col.classList.remove('hidden');
+        centerCol.classList.remove('hidden');
+      } else {
+        t1Col.classList.add('hidden');
+        t2Col.classList.add('hidden');
+        centerCol.classList.add('hidden');
       }
 
       // টাইমার ডাটা আপডেট
