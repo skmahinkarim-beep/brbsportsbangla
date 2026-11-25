@@ -25,10 +25,10 @@
       color: #ffffff;
       padding: 20px;
       position: relative;
+      overflow-x: hidden;
       transition: background-image 0.4s ease;
     }
 
-    /* ব্যাকগ্রাউন্ড ছবির ওপর হালকা ডার্ক শেড */
     body::before {
       content: "";
       position: fixed;
@@ -37,6 +37,7 @@
       z-index: 0;
     }
 
+    /* মূল স্কোরবোর্ড */
     .scoreboard {
       position: relative;
       z-index: 1;
@@ -99,7 +100,6 @@
       text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
     }
 
-    /* মাঝখানের সেকশন: লাইভ, স্কোর, টাইমার */
     .score-section {
       display: flex;
       flex-direction: column;
@@ -133,14 +133,8 @@
     }
 
     @keyframes liveGlow {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 12px rgba(239, 68, 68, 0.75);
-      }
-      50% {
-        transform: scale(1.06);
-        box-shadow: 0 0 28px rgba(239, 68, 68, 1);
-      }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 12px rgba(239, 68, 68, 0.75); }
+      50% { transform: scale(1.06); box-shadow: 0 0 28px rgba(239, 68, 68, 1); }
     }
 
     @keyframes dotBlink {
@@ -161,9 +155,7 @@
       font-variant-numeric: tabular-nums;
     }
 
-    .divider {
-      color: #38bdf8;
-    }
+    .divider { color: #38bdf8; }
 
     .timer-box {
       display: inline-flex;
@@ -181,11 +173,9 @@
       font-variant-numeric: tabular-nums;
     }
 
-    .timer-icon {
-      font-size: 1.6rem;
-    }
+    .timer-icon { font-size: 1.6rem; }
 
-    /* নিচের গোলদাতাদের অংশ (দুই দলের নিচে বরাবর, ছোট ও মাঝখান বরাবর সাজানো) */
+    /* গোলদাতাদের তালিকা */
     .goals-col {
       display: flex;
       flex-direction: column;
@@ -278,8 +268,310 @@
       flex-shrink: 0;
     }
 
-    .hidden {
-      display: none !important;
+    .hidden { display: none !important; }
+
+    /* ================= গোল সেলিব্রেশন ওভারলে ================= */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(2, 6, 23, 0.84);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .goal-card {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+      border: 3px solid #facc15;
+      border-radius: 30px;
+      padding: 36px 46px;
+      text-align: center;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: 0 0 65px rgba(250, 204, 21, 0.45);
+      animation: popIn 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.55); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .goal-banner {
+      font-size: 3.8rem;
+      font-weight: 900;
+      letter-spacing: 6px;
+      background: linear-gradient(90deg, #facc15, #f97316, #facc15);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(250, 204, 21, 0.3);
+      margin-bottom: 18px;
+      animation: pulseText 0.8s infinite alternate;
+    }
+
+    @keyframes pulseText {
+      from { transform: scale(1); }
+      to { transform: scale(1.07); }
+    }
+
+    .goal-player-photo {
+      width: 135px;
+      height: 135px;
+      border-radius: 50%;
+      border: 4px solid #facc15;
+      margin: 0 auto 16px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      box-shadow: 0 0 30px rgba(250, 204, 21, 0.5);
+    }
+
+    .goal-player-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .goal-player-name {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .goal-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 16px;
+    }
+
+    .goal-team-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    .goal-team-row img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    /* ================= বড় উইনার সেলিব্রেশন ওভারলে ================= */
+    #winnerOverlay {
+      z-index: 60;
+      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.94), rgba(2, 6, 23, 0.97));
+    }
+
+    .winner-card {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.96));
+      border: 4px solid #facc15;
+      border-radius: 34px;
+      padding: 40px 44px;
+      text-align: center;
+      max-width: 760px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 0 90px rgba(250, 204, 21, 0.55);
+      animation: popIn 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    .winner-trophy {
+      font-size: 4.5rem;
+      margin-bottom: 6px;
+      animation: trophyBounce 1.4s infinite ease-in-out;
+    }
+
+    @keyframes trophyBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.08); }
+    }
+
+    .winner-title {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #fde047, #f59e0b, #fde047);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    .winner-logo-box {
+      width: 155px;
+      height: 155px;
+      border-radius: 50%;
+      border: 4px solid #facc15;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 0 auto 16px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 40px rgba(250, 204, 21, 0.45);
+    }
+
+    .winner-logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .winner-team-name {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 14px;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+    }
+
+    .winner-score-summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 26px;
+      border-radius: 999px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #e2e8f0;
+      margin-bottom: 24px;
+    }
+
+    .winner-score-num {
+      color: #facc15;
+      font-size: 1.7rem;
+    }
+
+    .winner-scorers-title {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #38bdf8;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .winner-scorers-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .winner-scorer-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      border-radius: 16px;
+      padding: 8px 16px 8px 10px;
+    }
+
+    .winner-scorer-card .w-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid #facc15;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      font-size: 1.2rem;
+    }
+
+    .winner-scorer-card .w-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .winner-scorer-info {
+      text-align: left;
+    }
+
+    .winner-scorer-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .winner-scorer-min {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #facc15;
+    }
+
+    /* কনফেত্তি ক্যানভাস */
+    #fxCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 75;
+    }
+
+    /* সাউন্ড আনলক বাটন */
+    .sound-btn {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 90;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #ffffff;
+      background: rgba(220, 38, 38, 0.92);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      transition: all 0.25s ease;
+      animation: soundPulse 1.5s infinite;
+    }
+
+    .sound-btn.unlocked {
+      background: rgba(15, 23, 42, 0.65);
+      color: #94a3b8;
+      font-size: 0.8rem;
+      padding: 7px 14px;
+      animation: none;
+    }
+
+    @keyframes soundPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
     }
 
     /* মোবাইল ও ছোট স্ক্রিনের জন্য রেসপনসিভ */
@@ -290,67 +582,38 @@
         row-gap: 14px;
         column-gap: 8px;
       }
-      .logo-box {
-        width: 80px;
-        height: 80px;
-        padding: 8px;
-      }
-      .team-name {
-        font-size: 1.05rem;
-      }
-      .live-badge {
-        font-size: 0.75rem;
-        padding: 4px 12px;
-        gap: 6px;
-      }
-      .live-dot {
-        width: 7px;
-        height: 7px;
-      }
-      .score {
-        font-size: 3.1rem;
-        gap: 6px;
-      }
-      .timer-box {
-        font-size: 1.25rem;
-        padding: 5px 14px;
-        border-radius: 10px;
-        gap: 6px;
-      }
-      .timer-icon {
-        font-size: 1rem;
-      }
-      .goal-item {
-        padding: 4px 8px 4px 5px;
-        gap: 5px;
-      }
-      .player-avatar {
-        width: 22px;
-        height: 22px;
-        font-size: 0.7rem;
-      }
-      .goal-num {
-        font-size: 0.62rem;
-        padding: 1px 5px;
-      }
-      .player-name {
-        font-size: 0.72rem;
-        max-width: 72px;
-      }
-      .goal-min {
-        font-size: 0.7rem;
-      }
-      .goals-divider-label {
-        font-size: 0.62rem;
-        padding: 3px 8px;
-      }
+      .logo-box { width: 80px; height: 80px; padding: 8px; }
+      .team-name { font-size: 1.05rem; }
+      .live-badge { font-size: 0.75rem; padding: 4px 12px; gap: 6px; }
+      .live-dot { width: 7px; height: 7px; }
+      .score { font-size: 3.1rem; gap: 6px; }
+      .timer-box { font-size: 1.25rem; padding: 5px 14px; border-radius: 10px; gap: 6px; }
+      .timer-icon { font-size: 1rem; }
+      .goal-item { padding: 4px 8px 4px 5px; gap: 5px; }
+      .player-avatar { width: 22px; height: 22px; font-size: 0.7rem; }
+      .goal-num { font-size: 0.62rem; padding: 1px 5px; }
+      .player-name { font-size: 0.72rem; max-width: 72px; }
+      .goal-min { font-size: 0.7rem; }
+      .goals-divider-label { font-size: 0.62rem; padding: 3px 8px; }
+
+      .goal-card { padding: 26px 20px; }
+      .goal-banner { font-size: 2.6rem; }
+      .goal-player-photo { width: 105px; height: 105px; }
+      .goal-player-name { font-size: 1.6rem; }
+
+      .winner-card { padding: 28px 18px; }
+      .winner-trophy { font-size: 3.2rem; }
+      .winner-title { font-size: 2rem; }
+      .winner-logo-box { width: 110px; height: 110px; }
+      .winner-team-name { font-size: 1.8rem; }
+      .winner-score-summary { font-size: 1rem; padding: 8px 16px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- মূল স্কোরবোর্ড -->
   <div class="scoreboard">
-    <!-- সারি ১, কলাম ১: বাম পাশের দল -->
     <div class="team">
       <div class="logo-box">
         <img id="team1Logo" src="" alt="Team 1 Logo">
@@ -359,7 +622,6 @@
       <div id="team1Name" class="team-name">Team A</div>
     </div>
 
-    <!-- সারি ১, কলাম ২: মাঝখানের স্ট্যাটাস, স্কোর ও টাইমার -->
     <div class="score-section">
       <div id="liveBadge" class="live-badge">
         <span class="live-dot"></span>
@@ -378,7 +640,6 @@
       </div>
     </div>
 
-    <!-- সারি ১, কলাম ৩: ডান পাশের দল -->
     <div class="team">
       <div class="logo-box">
         <img id="team2Logo" src="" alt="Team 2 Logo">
@@ -387,13 +648,60 @@
       <div id="team2Name" class="team-name">Team B</div>
     </div>
 
-    <!-- সারি ২: গোলদাতাদের তালিকা (যখন গোল যোগ করা হবে তখনই দেখাবে) -->
     <div id="team1GoalsCol" class="goals-col hidden"></div>
     <div id="goalsCenterCol" class="goals-center-spacer hidden">
       <span class="goals-divider-label">⚽ Goals</span>
     </div>
     <div id="team2GoalsCol" class="goals-col hidden"></div>
   </div>
+
+  <!-- গোল সেলিব্রেশন পপআপ -->
+  <div id="goalOverlay" class="overlay hidden">
+    <div class="goal-card">
+      <div class="goal-banner">GOAL! ⚽</div>
+      <div id="celebPhotoBox" class="goal-player-photo">⚽</div>
+      <div id="celebPlayerName" class="goal-player-name">Player</div>
+      <div class="goal-meta">
+        <span id="celebGoalNo">Goal #1</span>
+        <span>•</span>
+        <span id="celebMinute">00'</span>
+      </div>
+      <div class="goal-team-row">
+        <img id="celebTeamLogo" src="" alt="" style="display: none;">
+        <span id="celebTeamName">Team</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- বড় উইনার সেলিব্রেশন পপআপ -->
+  <div id="winnerOverlay" class="overlay hidden">
+    <div class="winner-card">
+      <div class="winner-trophy">🏆</div>
+      <div class="winner-title">CHAMPION!</div>
+      <div class="winner-logo-box">
+        <img id="winnerLogo" src="" alt="Winner Logo">
+      </div>
+      <div id="winnerTeamName" class="winner-team-name">Winner Team</div>
+      <div class="winner-score-summary">
+        <span id="winSumT1">Team A</span>
+        <span class="winner-score-num" id="winSumScore">0 - 0</span>
+        <span id="winSumT2">Team B</span>
+      </div>
+      <div id="winnerScorersWrap" class="hidden">
+        <div class="winner-scorers-title">⚽ Goal Scorers</div>
+        <div id="winnerScorersGrid" class="winner-scorers-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- কনফেত্তি ও আতশবাজি ক্যানভাস -->
+  <canvas id="fxCanvas"></canvas>
+
+  <!-- কাস্টম ব্যাকগ্রাউন্ড মিউজিক প্লেয়ার -->
+  <audio id="customBgmAudio" loop preload="auto"></audio>
+
+  <!-- সাউন্ড চালু করার বাটন -->
+  <button id="soundToggleBtn" class="sound-btn" onclick="unlockAudio()">🔊 সাউন্ড চালু করতে ক্লিক করুন</button>
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -415,6 +723,336 @@
     const db = firebase.database();
     const scoreboardRef = db.ref('scoreboard');
 
+    // ================= সাউন্ড ও ব্যাকগ্রাউন্ড মিউজিক ইঞ্জিন =================
+    let audioCtx = null;
+    let audioUnlocked = false;
+    let musicState = { playing: false, volume: 0.4, customUrl: '' };
+    let synthBgmTimer = null;
+    let bgmMasterGain = null;
+    const customAudio = document.getElementById('customBgmAudio');
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function unlockAudio() {
+      initAudioContext();
+      audioUnlocked = true;
+      const btn = document.getElementById('soundToggleBtn');
+      btn.textContent = '🔊 Sound ON';
+      btn.classList.add('unlocked');
+      syncBackgroundMusic();
+    }
+
+    // প্রথমবার পেজে ক্লিক করলেও অটো আনলক হবে
+    document.addEventListener('click', () => {
+      if (!audioUnlocked) unlockAudio();
+    }, { once: true });
+
+    // বিল্ট-ইন ব্যাকগ্রাউন্ড মিউজিক লুপ
+    function startSynthBgm() {
+      if (!audioCtx || !audioUnlocked) return;
+      stopSynthBgm();
+
+      bgmMasterGain = audioCtx.createGain();
+      bgmMasterGain.gain.value = (musicState.volume || 0.4) * 0.22;
+      bgmMasterGain.connect(audioCtx.destination);
+
+      const chords = [
+        [220, 261.63, 329.63], // Am
+        [174.61, 220, 261.63], // F
+        [261.63, 329.63, 392.00], // C
+        [196.00, 246.94, 293.66]  // G
+      ];
+      let step = 0;
+
+      function playBar() {
+        if (!musicState.playing || !audioUnlocked || !bgmMasterGain) return;
+        const now = audioCtx.currentTime;
+        const chord = chords[step % chords.length];
+        step++;
+
+        chord.forEach((freq) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const filter = audioCtx.createBiquadFilter();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(900, now);
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(0.28, now + 0.3);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 1.9);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(bgmMasterGain);
+          osc.start(now);
+          osc.stop(now + 1.95);
+        });
+      }
+
+      playBar();
+      synthBgmTimer = setInterval(playBar, 2000);
+    }
+
+    function stopSynthBgm() {
+      if (synthBgmTimer) {
+        clearInterval(synthBgmTimer);
+        synthBgmTimer = null;
+      }
+      if (bgmMasterGain) {
+        try { bgmMasterGain.disconnect(); } catch (e) {}
+        bgmMasterGain = null;
+      }
+    }
+
+    function syncBackgroundMusic() {
+      if (!audioUnlocked) return;
+      const vol = typeof musicState.volume === 'number' ? musicState.volume : 0.4;
+      const url = (musicState.customUrl || '').trim();
+
+      if (musicState.playing) {
+        if (url !== '') {
+          stopSynthBgm();
+          if (customAudio.src !== url) customAudio.src = url;
+          customAudio.volume = Math.min(1, Math.max(0, vol));
+          customAudio.play().catch(() => startSynthBgm());
+        } else {
+          customAudio.pause();
+          if (bgmMasterGain) {
+            bgmMasterGain.gain.value = vol * 0.22;
+          } else {
+            startSynthBgm();
+          }
+        }
+      } else {
+        customAudio.pause();
+        stopSynthBgm();
+      }
+    }
+
+    // স্টেডিয়াম ক্রাউড চিয়ার সাউন্ড জেনারেটর
+    function playCrowdRoar(duration = 3.2, peakVol = 0.28) {
+      if (!audioCtx || !audioUnlocked) return;
+      const bufferSize = audioCtx.sampleRate * duration;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      let lastOut = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        data[i] = (lastOut + 0.04 * white) / 1.04;
+        lastOut = data[i];
+        data[i] *= 3.0;
+      }
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 850;
+      filter.Q.value = 0.7;
+
+      const gain = audioCtx.createGain();
+      const now = audioCtx.currentTime;
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(peakVol, now + 0.4);
+      gain.gain.exponentialRampToValueAtTime(0.005, now + duration);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      noise.start(now);
+      noise.stop(now + duration);
+    }
+
+    // গোল সাউন্ড ইফেক্ট (হর্ন + ফ্যানফেয়ার + ক্রাউড চিয়ার)
+    function playGoalSound() {
+      if (!audioUnlocked) return;
+      initAudioContext();
+      const now = audioCtx.currentTime;
+
+      // স্টেডিয়াম হর্ন কর্ড
+      [261.63, 329.63, 392.00].forEach((freq) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now);
+        filter.type = 'lowpass';
+        filter.frequency.value = 1100;
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.14, now + 0.06);
+        gain.gain.setValueAtTime(0.14, now + 0.7);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 1.45);
+      });
+
+      // উচ্ছ্বসিত নোটস
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((f, idx) => {
+        const t = now + 0.12 + idx * 0.13;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f, t);
+        gain.gain.setValueAtTime(0.001, t);
+        gain.gain.linearRampToValueAtTime(0.2, t + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.6);
+      });
+
+      playCrowdRoar(3.4, 0.35);
+    }
+
+    // উইনার গ্র্যান্ড ভিক্টরি সাউন্ড ইফেক্ট
+    function playWinSound() {
+      if (!audioUnlocked) return;
+      initAudioContext();
+      const now = audioCtx.currentTime;
+
+      const melody = [
+        { f: 392.00, t: 0.0, d: 0.22 },
+        { f: 523.25, t: 0.22, d: 0.22 },
+        { f: 659.25, t: 0.44, d: 0.22 },
+        { f: 783.99, t: 0.68, d: 0.45 },
+        { f: 659.25, t: 1.15, d: 0.22 },
+        { f: 783.99, t: 1.40, d: 1.3 }
+      ];
+
+      melody.forEach((n) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(n.f, now + n.t);
+        filter.type = 'lowpass';
+        filter.frequency.value = 1600;
+
+        gain.gain.setValueAtTime(0.001, now + n.t);
+        gain.gain.linearRampToValueAtTime(0.18, now + n.t + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + n.t + n.d);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + n.t);
+        osc.stop(now + n.t + n.d + 0.05);
+      });
+
+      playCrowdRoar(5.0, 0.42);
+    }
+
+    // ================= কনফেত্তি ও আতশবাজি ক্যানভাস =================
+    const canvas = document.getElementById('fxCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let fxRunning = false;
+    let winnerFireworkInterval = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const fxColors = ['#facc15', '#ef4444', '#38bdf8', '#22c55e', '#f97316', '#ffffff', '#e879f9'];
+
+    function spawnBurst(x, y, count = 80) {
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 3 + Math.random() * 10;
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 3,
+          size: 5 + Math.random() * 7,
+          color: fxColors[Math.floor(Math.random() * fxColors.length)],
+          alpha: 1,
+          gravity: 0.18,
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10
+        });
+      }
+      if (!fxRunning) {
+        fxRunning = true;
+        requestAnimationFrame(animateFx);
+      }
+    }
+
+    function animateFx() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter((p) => p.alpha > 0.02 && p.y < canvas.height + 40);
+
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.vx *= 0.99;
+        p.alpha -= 0.009;
+        p.rotation += p.rotSpeed;
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        ctx.restore();
+      });
+
+      if (particles.length > 0) {
+        requestAnimationFrame(animateFx);
+      } else {
+        fxRunning = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function launchGoalConfetti() {
+      spawnBurst(canvas.width * 0.25, canvas.height * 0.45, 70);
+      spawnBurst(canvas.width * 0.75, canvas.height * 0.45, 70);
+      setTimeout(() => spawnBurst(canvas.width * 0.5, canvas.height * 0.3, 90), 350);
+    }
+
+    function startWinnerFireworks() {
+      stopWinnerFireworks();
+      launchGoalConfetti();
+      winnerFireworkInterval = setInterval(() => {
+        const rx = canvas.width * (0.2 + Math.random() * 0.6);
+        const ry = canvas.height * (0.2 + Math.random() * 0.4);
+        spawnBurst(rx, ry, 65);
+      }, 900);
+    }
+
+    function stopWinnerFireworks() {
+      if (winnerFireworkInterval) {
+        clearInterval(winnerFireworkInterval);
+        winnerFireworkInterval = null;
+      }
+    }
+
+    // ================= টাইমার ও স্কোরবোর্ড লজিক =================
     let serverOffset = 0;
     let timerState = { running: false, elapsedSeconds: 0, startTime: 0, show: true };
 
@@ -473,29 +1111,24 @@
         const item = document.createElement('div');
         item.className = 'goal-item';
 
-        // গোল নাম্বার
         const numSpan = document.createElement('span');
         numSpan.className = 'goal-num';
         numSpan.textContent = g.goalNo ? `#${g.goalNo}` : `#${index + 1}`;
         item.appendChild(numSpan);
 
-        // প্লেয়ারের গোল মাথার ছবি
         const avatarDiv = document.createElement('div');
         avatarDiv.className = 'player-avatar';
         if (g.photo && g.photo.trim() !== '') {
           const img = document.createElement('img');
           img.src = g.photo.trim();
           img.alt = g.name || 'Player';
-          img.onerror = () => {
-            avatarDiv.innerHTML = '⚽';
-          };
+          img.onerror = () => { avatarDiv.innerHTML = '⚽'; };
           avatarDiv.appendChild(img);
         } else {
           avatarDiv.textContent = '⚽';
         }
         item.appendChild(avatarDiv);
 
-        // প্লেয়ারের নাম
         if (g.name && g.name.trim() !== '') {
           const nameSpan = document.createElement('span');
           nameSpan.className = 'player-name';
@@ -503,7 +1136,6 @@
           item.appendChild(nameSpan);
         }
 
-        // কত মিনিটে গোল করল
         if (g.minute && g.minute.trim() !== '') {
           const minSpan = document.createElement('span');
           minSpan.className = 'goal-min';
@@ -518,7 +1150,127 @@
       return goals.length > 0;
     }
 
-    // Firebase থেকে রিয়েল-টাইম ডাটা লোড
+    // ================= গোল ও উইনার ওভারলে হ্যান্ডলিং =================
+    let isInitialLoad = true;
+    let lastCelebrationId = 0;
+    let lastWinnerId = 0;
+    let goalHideTimer = null;
+
+    function triggerGoalCelebration(celeb) {
+      const overlay = document.getElementById('goalOverlay');
+      const photoBox = document.getElementById('celebPhotoBox');
+      const playerNameEl = document.getElementById('celebPlayerName');
+      const goalNoEl = document.getElementById('celebGoalNo');
+      const minEl = document.getElementById('celebMinute');
+      const teamLogoEl = document.getElementById('celebTeamLogo');
+      const teamNameEl = document.getElementById('celebTeamName');
+
+      photoBox.innerHTML = '';
+      if (celeb.playerPhoto && celeb.playerPhoto.trim() !== '') {
+        const img = document.createElement('img');
+        img.src = celeb.playerPhoto.trim();
+        img.onerror = () => { photoBox.textContent = '⚽'; };
+        photoBox.appendChild(img);
+      } else {
+        photoBox.textContent = '⚽';
+      }
+
+      playerNameEl.textContent = celeb.playerName || 'Goal Scorer';
+      goalNoEl.textContent = celeb.goalNo ? `Goal #${celeb.goalNo}` : 'GOAL';
+      const minTxt = (celeb.minute || '').trim();
+      minEl.textContent = minTxt ? (minTxt.includes("'") ? minTxt : `${minTxt}'`) : 'LIVE';
+
+      teamNameEl.textContent = celeb.teamName || '';
+      if (celeb.teamLogo && celeb.teamLogo.trim() !== '') {
+        teamLogoEl.src = celeb.teamLogo.trim();
+        teamLogoEl.style.display = 'inline-block';
+      } else {
+        teamLogoEl.style.display = 'none';
+      }
+
+      overlay.classList.remove('hidden');
+      launchGoalConfetti();
+      playGoalSound();
+
+      if (goalHideTimer) clearTimeout(goalHideTimer);
+      goalHideTimer = setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 6000);
+    }
+
+    function showWinnerOverlay(data, winData, shouldPlaySound) {
+      const overlay = document.getElementById('winnerOverlay');
+      const winTeam = winData.teamNum === 1 ? data.team1 : data.team2;
+
+      const logoEl = document.getElementById('winnerLogo');
+      if (winTeam?.logo && winTeam.logo.trim() !== '') {
+        logoEl.src = winTeam.logo.trim();
+        logoEl.style.display = 'block';
+      } else {
+        logoEl.style.display = 'none';
+      }
+
+      document.getElementById('winnerTeamName').textContent = winTeam?.name || 'Winner';
+      document.getElementById('winSumT1').textContent = data.team1?.name || 'Team A';
+      document.getElementById('winSumScore').textContent = `${data.team1?.score ?? 0} - ${data.team2?.score ?? 0}`;
+      document.getElementById('winSumT2').textContent = data.team2?.name || 'Team B';
+
+      // জয়ী দলের সব গোলদাতাদের দেখানো
+      const scorersWrap = document.getElementById('winnerScorersWrap');
+      const grid = document.getElementById('winnerScorersGrid');
+      grid.innerHTML = '';
+
+      const goals = Array.isArray(winTeam?.goals) ? winTeam.goals : Object.values(winTeam?.goals || {});
+      if (goals.length > 0) {
+        scorersWrap.classList.remove('hidden');
+        goals.forEach((g, idx) => {
+          const card = document.createElement('div');
+          card.className = 'winner-scorer-card';
+
+          const av = document.createElement('div');
+          av.className = 'w-avatar';
+          if (g.photo && g.photo.trim() !== '') {
+            const img = document.createElement('img');
+            img.src = g.photo.trim();
+            img.onerror = () => { av.textContent = '⚽'; };
+            av.appendChild(img);
+          } else {
+            av.textContent = '⚽';
+          }
+
+          const info = document.createElement('div');
+          info.className = 'winner-scorer-info';
+          const nameDiv = document.createElement('div');
+          nameDiv.className = 'winner-scorer-name';
+          nameDiv.textContent = g.name || `Goal #${g.goalNo || idx + 1}`;
+          const minDiv = document.createElement('div');
+          minDiv.className = 'winner-scorer-min';
+          const m = (g.minute || '').trim();
+          minDiv.textContent = `Goal #${g.goalNo || idx + 1}` + (m ? ` • ${m.includes("'") ? m : m + "'"}` : '');
+
+          info.appendChild(nameDiv);
+          info.appendChild(minDiv);
+          card.appendChild(av);
+          card.appendChild(info);
+          grid.appendChild(card);
+        });
+      } else {
+        scorersWrap.classList.add('hidden');
+      }
+
+      overlay.classList.remove('hidden');
+      startWinnerFireworks();
+      if (shouldPlaySound) {
+        playWinSound();
+      }
+    }
+
+    function hideWinnerOverlay() {
+      document.getElementById('winnerOverlay').classList.add('hidden');
+      stopWinnerFireworks();
+    }
+
+    // Firebase রিয়েল-টাইম লিসেনার
     scoreboardRef.on('value', (snapshot) => {
       const data = snapshot.val();
       if (!data) return;
@@ -530,25 +1282,16 @@
         document.body.style.backgroundImage = 'linear-gradient(135deg, #0f172a, #1e293b)';
       }
 
-      // টিম ১
+      // টিম ১ ও ২
       document.getElementById('team1Name').textContent = data.team1?.name || 'Team A';
       document.getElementById('team1Score').textContent = data.team1?.score ?? 0;
-      setLogo(
-        document.getElementById('team1Logo'),
-        document.getElementById('team1Placeholder'),
-        data.team1?.logo
-      );
+      setLogo(document.getElementById('team1Logo'), document.getElementById('team1Placeholder'), data.team1?.logo);
 
-      // টিম ২
       document.getElementById('team2Name').textContent = data.team2?.name || 'Team B';
       document.getElementById('team2Score').textContent = data.team2?.score ?? 0;
-      setLogo(
-        document.getElementById('team2Logo'),
-        document.getElementById('team2Placeholder'),
-        data.team2?.logo
-      );
+      setLogo(document.getElementById('team2Logo'), document.getElementById('team2Placeholder'), data.team2?.logo);
 
-      // লাল ব্লিঙ্কিং স্ট্যাটাস ব্যাজ
+      // লাইভ ব্যাজ
       const badgeEl = document.getElementById('liveBadge');
       const statusTextEl = document.getElementById('matchStatusText');
       if (data.status && data.status.trim() !== '') {
@@ -558,11 +1301,10 @@
         badgeEl.style.display = 'none';
       }
 
-      // গোলদাতাদের তালিকা রেন্ডার
+      // গোলদাতার তালিকা
       const t1Col = document.getElementById('team1GoalsCol');
       const t2Col = document.getElementById('team2GoalsCol');
       const centerCol = document.getElementById('goalsCenterCol');
-
       const hasT1Goals = renderGoalsList(t1Col, data.team1?.goals);
       const hasT2Goals = renderGoalsList(t2Col, data.team2?.goals);
 
@@ -576,7 +1318,7 @@
         centerCol.classList.add('hidden');
       }
 
-      // টাইমার ডাটা আপডেট
+      // টাইমার
       if (data.timer) {
         timerState = {
           running: !!data.timer.running,
@@ -586,6 +1328,37 @@
         };
       }
       updateTimerUI();
+
+      // ব্যাকগ্রাউন্ড মিউজিক
+      if (data.music) {
+        musicState = {
+          playing: !!data.music.playing,
+          volume: typeof data.music.volume === 'number' ? data.music.volume : 0.4,
+          customUrl: data.music.customUrl || ''
+        };
+        syncBackgroundMusic();
+      }
+
+      // গোল সেলিব্রেশন চেক
+      if (data.celebration && data.celebration.id) {
+        if (isInitialLoad) {
+          lastCelebrationId = data.celebration.id;
+        } else if (data.celebration.id !== lastCelebrationId) {
+          lastCelebrationId = data.celebration.id;
+          triggerGoalCelebration(data.celebration);
+        }
+      }
+
+      // উইনার সেলিব্রেশন চেক
+      if (data.winner && data.winner.active) {
+        const isNewWin = !isInitialLoad && data.winner.id !== lastWinnerId;
+        lastWinnerId = data.winner.id;
+        showWinnerOverlay(data, data.winner, isNewWin);
+      } else {
+        hideWinnerOverlay();
+      }
+
+      isInitialLoad = false;
     });
   </script>
 
