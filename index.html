@@ -33,7 +33,7 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.48);
       z-index: 0;
     }
 
@@ -44,35 +44,36 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      max-width: 780px;
-      background: rgba(15, 23, 42, 0.72);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 24px;
-      padding: 30px 40px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+      max-width: 1020px;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(14px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      padding: 44px 52px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
     }
 
     .team {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
-      width: 32%;
+      gap: 18px;
+      width: 31%;
       text-align: center;
     }
 
     .logo-box {
-      width: 96px;
-      height: 96px;
+      width: 145px;
+      height: 145px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.12);
+      border: 3px solid rgba(255, 255, 255, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      padding: 8px;
+      padding: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
     .logo-box img {
@@ -83,16 +84,18 @@
     }
 
     .logo-placeholder {
-      font-size: 0.8rem;
+      font-size: 1rem;
+      font-weight: 700;
       color: #94a3b8;
     }
 
     .team-name {
-      font-size: 1.25rem;
-      font-weight: 700;
+      font-size: 1.85rem;
+      font-weight: 800;
       letter-spacing: 0.5px;
-      color: #f8fafc;
+      color: #ffffff;
       word-break: break-word;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
     }
 
     .score-section {
@@ -100,52 +103,128 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 36%;
+      gap: 18px;
+      width: 38%;
     }
 
-    .score {
-      font-size: 4.5rem;
+    /* লাল ও ধপধপ করা LIVE ব্যাজ */
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: #ffffff;
+      font-size: 1.05rem;
       font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 8px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      animation: liveGlow 1.2s infinite ease-in-out;
+    }
+
+    .live-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ffffff;
+      animation: dotBlink 1.2s infinite ease-in-out;
+    }
+
+    @keyframes liveGlow {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 12px rgba(239, 68, 68, 0.75);
+      }
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 28px rgba(239, 68, 68, 1);
+      }
+    }
+
+    @keyframes dotBlink {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    /* বড় স্কোর */
+    .score {
+      font-size: 6.4rem;
+      font-weight: 900;
       letter-spacing: 4px;
       color: #ffffff;
       line-height: 1;
       display: flex;
       align-items: center;
-      gap: 10px;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      gap: 16px;
+      text-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+      font-variant-numeric: tabular-nums;
     }
 
     .divider {
       color: #38bdf8;
     }
 
-    .match-status {
-      margin-top: 12px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 5px 14px;
-      border-radius: 999px;
+    /* সবার চোখে পড়ার মতো টাইমার */
+    .timer-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(2, 6, 23, 0.85);
+      border: 2px solid #facc15;
+      color: #facc15;
+      font-size: 2.35rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      padding: 10px 28px;
+      border-radius: 16px;
+      box-shadow: 0 0 22px rgba(250, 204, 21, 0.28);
+      font-variant-numeric: tabular-nums;
     }
 
-    @media (max-width: 600px) {
+    .timer-icon {
+      font-size: 1.7rem;
+    }
+
+    /* মোবাইল ও ছোট স্ক্রিনের জন্য রেসপনসিভ */
+    @media (max-width: 768px) {
       .scoreboard {
-        padding: 20px 14px;
+        padding: 26px 18px;
+        border-radius: 22px;
       }
       .logo-box {
-        width: 66px;
-        height: 66px;
+        width: 84px;
+        height: 84px;
+        padding: 8px;
       }
       .team-name {
-        font-size: 0.95rem;
+        font-size: 1.15rem;
+      }
+      .live-badge {
+        font-size: 0.8rem;
+        padding: 5px 14px;
+        gap: 6px;
+      }
+      .live-dot {
+        width: 8px;
+        height: 8px;
       }
       .score {
-        font-size: 2.8rem;
-        gap: 6px;
+        font-size: 3.4rem;
+        gap: 8px;
+      }
+      .timer-box {
+        font-size: 1.4rem;
+        padding: 6px 16px;
+        border-radius: 12px;
+      }
+      .timer-icon {
+        font-size: 1.1rem;
       }
     }
   </style>
@@ -162,14 +241,23 @@
       <div id="team1Name" class="team-name">Team A</div>
     </div>
 
-    <!-- মাঝখানের স্কোর -->
+    <!-- মাঝখানের স্ট্যাটাস, স্কোর ও টাইমার -->
     <div class="score-section">
+      <div id="liveBadge" class="live-badge">
+        <span class="live-dot"></span>
+        <span id="matchStatusText">LIVE</span>
+      </div>
+
       <div class="score">
         <span id="team1Score">0</span>
         <span class="divider">-</span>
         <span id="team2Score">0</span>
       </div>
-      <div id="matchStatus" class="match-status">LIVE</div>
+
+      <div id="timerBox" class="timer-box">
+        <span class="timer-icon">⏱</span>
+        <span id="timerDisplay">00:00</span>
+      </div>
     </div>
 
     <!-- ডান পাশের দল -->
@@ -202,6 +290,40 @@
     const db = firebase.database();
     const scoreboardRef = db.ref('scoreboard');
 
+    let serverOffset = 0;
+    let timerState = { running: false, elapsedSeconds: 0, startTime: 0, show: true };
+
+    // সার্ভার টাইম অফসেট নেওয়া যাতে সব ডিভাইসে একদম সঠিক টাইমার চলে
+    db.ref('.info/serverTimeOffset').on('value', (snap) => {
+      serverOffset = snap.val() || 0;
+    });
+
+    function formatTime(totalSeconds) {
+      const safeSec = Math.max(0, Math.floor(totalSeconds));
+      const mins = Math.floor(safeSec / 60);
+      const secs = safeSec % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function updateTimerUI() {
+      const timerBox = document.getElementById('timerBox');
+      if (timerState.show === false) {
+        timerBox.style.display = 'none';
+        return;
+      }
+      timerBox.style.display = 'inline-flex';
+
+      let totalSeconds = timerState.elapsedSeconds || 0;
+      if (timerState.running && timerState.startTime) {
+        const now = Date.now() + serverOffset;
+        const diff = Math.max(0, Math.floor((now - timerState.startTime) / 1000));
+        totalSeconds += diff;
+      }
+      document.getElementById('timerDisplay').textContent = formatTime(totalSeconds);
+    }
+
+    setInterval(updateTimerUI, 500);
+
     function setLogo(imgEl, placeholderEl, url) {
       if (url && url.trim() !== '') {
         imgEl.src = url.trim();
@@ -218,7 +340,7 @@
       }
     }
 
-    // Firebase থেকে রিয়েল-টাইম ডাটা শোনা
+    // Firebase থেকে রিয়েল-টাইম ডাটা লোড
     scoreboardRef.on('value', (snapshot) => {
       const data = snapshot.val();
       if (!data) return;
@@ -248,14 +370,26 @@
         data.team2?.logo
       );
 
-      // ম্যাচ স্ট্যাটাস
-      const statusEl = document.getElementById('matchStatus');
+      // লাল ব্লিঙ্কিং স্ট্যাটাস ব্যাজ
+      const badgeEl = document.getElementById('liveBadge');
+      const statusTextEl = document.getElementById('matchStatusText');
       if (data.status && data.status.trim() !== '') {
-        statusEl.textContent = data.status.trim();
-        statusEl.style.display = 'inline-block';
+        statusTextEl.textContent = data.status.trim();
+        badgeEl.style.display = 'inline-flex';
       } else {
-        statusEl.style.display = 'none';
+        badgeEl.style.display = 'none';
       }
+
+      // টাইমার ডাটা আপডেট
+      if (data.timer) {
+        timerState = {
+          running: !!data.timer.running,
+          elapsedSeconds: data.timer.elapsedSeconds || 0,
+          startTime: data.timer.startTime || 0,
+          show: data.timer.show !== false
+        };
+      }
+      updateTimerUI();
     });
   </script>
 
